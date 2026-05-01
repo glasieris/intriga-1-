@@ -11,7 +11,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const audienceId = '26265d73-7751-4229-8291-9430bfaa0a36'; 
+    const audienceId = '26265d73-7751-4229-8291-9430bfaa0a36'; // ID intriga 1
 
     const apiKey = process.env.RESEND_API_KEY;
     if (!apiKey) {
@@ -29,11 +29,7 @@ export default async function handler(req, res) {
         email,
         firstName: name,
         audienceId,
-        properties: {
-          whatsapp,
-          business_area,
-          business_special,
-        },
+        // Por ahora NO enviamos properties extra
       }),
     });
 
