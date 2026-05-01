@@ -11,7 +11,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const audienceId = 'AQUI_ID_INTRIGA_1'; // pega aquí el ID real de la audiencia intriga 1
+    const audienceId = '26265d73-7751-4229-8291-9430bfaa0a36'; 
 
     const apiKey = process.env.RESEND_API_KEY;
     if (!apiKey) {
