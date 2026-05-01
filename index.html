@@ -1,0 +1,767 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#002E5B" />
+  <title>Hacemos fácil lo que debería ser sencillo</title>
+  <meta name="description" content="Pronto: una vitrina profesional para conectar tu talento con clientes que te buscan hoy. Sé de los primeros en abrir sus puertas." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,500&display=swap" rel="stylesheet" />
+  <style>
+    /* ============================================================
+       Ventanal — LeadGen (Awareness) — Split layout (dark + light)
+       ============================================================ */
+
+    *, *::before, *::after { box-sizing: border-box; }
+    * { margin: 0; padding: 0; }
+    html, body { height: 100%; }
+
+    :root {
+      --c-deep: #002E5B;
+      --c-deeper: #05243A;
+      --c-gold: #EDB21D;
+      --c-gold-soft: #F9C85D;
+
+      /* Dark side */
+      --bg-dark: #002E5B;
+      --bg-dark-2: #05243A;
+      --line-dark: oklch(45% 0.04 252 / 0.45);
+      --line-dark-soft: oklch(45% 0.04 252 / 0.22);
+      --gold-line: oklch(78% 0.155 82 / 0.45);
+      --gold-line-soft: oklch(78% 0.155 82 / 0.18);
+
+      --gold: oklch(78.5% 0.155 82);
+      --gold-pale: oklch(88% 0.1 85);
+
+      --text-on-dark: oklch(96% 0.015 90);
+      --text-on-dark-soft: oklch(82% 0.025 90);
+      --text-on-dark-muted: oklch(64% 0.03 90);
+
+      /* Light side (form) */
+      --bg-light: #ffffff;
+      --bg-light-input: oklch(99% 0.003 90);
+      --bg-light-input-focus: oklch(98% 0.01 85);
+      --line-light: oklch(88% 0.01 252);
+      --line-light-strong: oklch(78% 0.02 252);
+      --text-on-light: #002E5B;
+      --text-on-light-soft: oklch(38% 0.03 252);
+      --text-on-light-muted: oklch(58% 0.025 252);
+
+      --danger: oklch(60% 0.18 28);
+
+      --t-base: 1rem;
+      --t-md: 1.0625rem;
+      --t-display: clamp(2.5rem, 1.4rem + 4.6vw, 4.75rem);
+
+      --ease-out-quart: cubic-bezier(0.25, 1, 0.3, 1);
+    }
+
+    body {
+      font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
+      font-weight: 400;
+      font-size: var(--t-base);
+      line-height: 1.55;
+      letter-spacing: -0.005em;
+      color: var(--text-on-dark);
+      background: var(--bg-dark);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      overflow-x: hidden;
+    }
+
+    /* ─── Split layout ──────────────────────────────────────── */
+
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 100vh;
+    }
+
+    @media (max-width: 960px) {
+      .split { grid-template-columns: 1fr; }
+    }
+
+    /* ─── Left side (dark, brand) ─────────────────────────── */
+
+    .pane-dark {
+      position: relative;
+      background: var(--bg-dark);
+      padding: clamp(28px, 5vw, 64px) clamp(28px, 5.5vw, 80px);
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    /* atmospheric layers */
+    .pane-dark::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(70% 50% at 30% -10%, oklch(40% 0.09 75 / 0.18), transparent 60%),
+        radial-gradient(60% 50% at 0% 110%, oklch(28% 0.07 252 / 0.55), transparent 55%);
+      z-index: -1;
+    }
+
+    .pane-dark::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.93  0 0 0 0 0.7  0 0 0 0 0.11  0 0 0 0.06 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+      opacity: 0.45;
+      mix-blend-mode: overlay;
+      z-index: -1;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 14px 6px;
+      border: 1px solid var(--gold-line);
+      border-radius: 99px;
+      font-size: 0.6875rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold-pale);
+      background: oklch(78% 0.155 82 / 0.04);
+      font-weight: 600;
+      width: fit-content;
+    }
+
+    .pill__dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--c-gold);
+      box-shadow: 0 0 10px var(--c-gold);
+      animation: pulse 2.6s var(--ease-out-quart) infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.85; transform: scale(1); }
+      50%      { opacity: 1;    transform: scale(1.25); }
+    }
+
+    .copy {
+      margin-top: auto;
+      margin-bottom: auto;
+      max-width: 540px;
+    }
+
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold-pale);
+      margin-bottom: 28px;
+    }
+    .eyebrow::before {
+      content: '';
+      width: 36px;
+      height: 1px;
+      background: var(--c-gold);
+      display: inline-block;
+    }
+
+    .display {
+      font-family: inherit;
+      font-weight: 800;
+      font-size: var(--t-display);
+      line-height: 0.98;
+      letter-spacing: -0.028em;
+      color: var(--text-on-dark);
+      margin: 0 0 28px;
+      max-width: 13ch;
+    }
+
+    .display em {
+      font-style: italic;
+      font-weight: 500;
+      color: var(--gold-pale);
+      letter-spacing: -0.02em;
+    }
+
+    .lede {
+      font-size: var(--t-md);
+      line-height: 1.65;
+      color: var(--text-on-dark-soft);
+      max-width: 46ch;
+      margin-bottom: 32px;
+    }
+
+    .lede strong { color: var(--text-on-dark); font-weight: 600; }
+
+    /* mini-arches — homenaje a la imagen 1 (vitrina de oficios) */
+    .mini-arches {
+      display: flex;
+      gap: 12px;
+      align-items: flex-end;
+      margin-bottom: 8px;
+    }
+
+    .mini-arch {
+      position: relative;
+      width: 36px;
+      height: 46px;
+      border-radius: 50% 50% 4px 4px / 38% 38% 4px 4px;
+      background: linear-gradient(180deg, var(--c-gold-soft) 0%, var(--c-gold) 100%);
+      display: grid;
+      place-items: center;
+      box-shadow:
+        inset 0 1px 0 oklch(95% 0.06 85 / 0.6),
+        0 4px 12px -4px oklch(78% 0.155 82 / 0.5);
+      transition: transform 0.4s var(--ease-out-quart);
+    }
+    .mini-arch:hover { transform: translateY(-3px); }
+
+    .mini-arch svg {
+      width: 18px;
+      height: 18px;
+      color: var(--c-deeper);
+    }
+
+    .mini-arches__caption {
+      margin-top: 14px;
+      font-size: 0.6875rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-on-dark-muted);
+      font-weight: 600;
+    }
+
+    /* "El fin de los 500 grupos de WhatsApp" — manifesto */
+    .manifesto {
+      position: relative;
+      margin-top: auto;
+      padding-top: 32px;
+      border-top: 1px solid var(--gold-line-soft);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: clamp(0.95rem, 0.8rem + 0.5vw, 1.125rem);
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--text-on-dark-soft);
+      max-width: 540px;
+    }
+
+    .manifesto em {
+      font-style: italic;
+      font-weight: 700;
+      color: var(--gold-pale);
+      white-space: nowrap;
+    }
+
+    .manifesto__icon {
+      flex-shrink: 0;
+      width: 22px;
+      height: 22px;
+      color: var(--c-gold);
+    }
+
+    /* ─── Right side (white, form) ─────────────────────────── */
+
+    .pane-light {
+      background: var(--bg-light);
+      padding: clamp(28px, 5vw, 64px) clamp(28px, 5.5vw, 80px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 28px;
+      color: var(--text-on-light);
+      position: relative;
+    }
+
+    .form-wrap {
+      width: 100%;
+      max-width: 460px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .form-header {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .pill--light {
+      color: var(--c-gold);
+      background: oklch(98% 0.04 85);
+      border-color: oklch(78% 0.155 82 / 0.55);
+    }
+
+    .form-header h2 {
+      font-size: clamp(1.625rem, 1.3rem + 0.8vw, 2rem);
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      color: var(--text-on-light);
+      line-height: 1.1;
+    }
+
+    .form-header p {
+      font-size: 0.9375rem;
+      color: var(--text-on-light-soft);
+      max-width: 38ch;
+      line-height: 1.55;
+    }
+
+    .form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .field__label {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--c-gold);
+    }
+
+    .field__label .req {
+      color: oklch(70% 0.16 75);
+      margin-left: 1px;
+    }
+
+    .field__input,
+    .field__select,
+    .field__textarea {
+      width: 100%;
+      background: var(--bg-light-input);
+      border: 1px solid var(--line-light);
+      border-radius: 10px;
+      padding: 12px 14px;
+      color: var(--text-on-light);
+      font-family: inherit;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      letter-spacing: -0.005em;
+      outline: 0;
+      transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .field__input::placeholder,
+    .field__textarea::placeholder {
+      color: var(--text-on-light-muted);
+      font-weight: 400;
+    }
+
+    .field__input:hover,
+    .field__select:hover,
+    .field__textarea:hover {
+      border-color: var(--line-light-strong);
+    }
+
+    .field__input:focus,
+    .field__select:focus,
+    .field__textarea:focus {
+      border-color: var(--c-gold);
+      background: var(--bg-light-input-focus);
+      box-shadow: 0 0 0 3px oklch(78% 0.155 82 / 0.18);
+    }
+
+    .field__select {
+      appearance: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+      padding-right: 38px;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'><path d='M1 1.5l5 5 5-5' stroke='%23EDB21D' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+    }
+
+    .field__select:invalid { color: var(--text-on-light-muted); font-weight: 400; }
+
+    .field__select option {
+      color: var(--text-on-light);
+      background: #fff;
+      font-weight: 500;
+    }
+
+    .field__textarea {
+      resize: none;
+      min-height: 84px;
+      line-height: 1.5;
+      font-family: inherit;
+    }
+
+    .cta {
+      margin-top: 8px;
+      width: 100%;
+      border: 0;
+      border-radius: 10px;
+      padding: 17px 24px;
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 0.875rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--c-deeper);
+      background: linear-gradient(180deg, var(--c-gold-soft) 0%, var(--c-gold) 100%);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      box-shadow:
+        inset 0 1px 0 oklch(95% 0.05 85 / 0.6),
+        0 8px 20px -8px oklch(78% 0.155 82 / 0.45);
+      transition: filter 0.25s ease, transform 0.15s ease, box-shadow 0.25s ease;
+    }
+
+    .cta:hover {
+      filter: brightness(1.05);
+      box-shadow:
+        inset 0 1px 0 oklch(95% 0.05 85 / 0.6),
+        0 14px 28px -8px oklch(78% 0.155 82 / 0.55);
+    }
+    .cta:active { transform: translateY(1px); }
+    .cta:disabled { cursor: progress; filter: grayscale(0.2) brightness(0.95); }
+
+    .cta__arrow {
+      display: inline-flex;
+      width: 14px;
+      height: 14px;
+      transition: transform 0.3s var(--ease-out-quart);
+    }
+    .cta:hover .cta__arrow { transform: translateX(4px); }
+
+    .helper {
+      margin-top: 4px;
+      font-size: 0.75rem;
+      text-align: center;
+      color: var(--text-on-light-muted);
+      letter-spacing: 0.04em;
+      min-height: 1rem;
+    }
+    .helper.error   { color: var(--danger); }
+    .helper.success { color: oklch(58% 0.16 145); }
+
+    .form-footer {
+      width: 100%;
+      max-width: 460px;
+      text-align: center;
+      font-size: 0.6875rem;
+      color: var(--text-on-light-muted);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-weight: 500;
+      padding-top: 12px;
+    }
+
+    /* Success state */
+    .success-card {
+      width: 100%;
+      max-width: 460px;
+      text-align: center;
+      padding: 40px 24px 36px;
+      border: 1px solid var(--line-light);
+      border-radius: 14px;
+      background: oklch(99% 0.005 90);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .success-card h3 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      color: var(--text-on-light);
+    }
+
+    .success-card p {
+      font-size: 0.9375rem;
+      color: var(--text-on-light-soft);
+      max-width: 32ch;
+      line-height: 1.55;
+    }
+
+    .seal {
+      width: 60px;
+      height: 60px;
+      border: 1px solid var(--gold-line);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: oklch(98% 0.04 85);
+      margin-bottom: 6px;
+    }
+    .seal svg { width: 28px; height: 28px; }
+
+    /* ─── Animations ────────────────────────────────────────── */
+
+    @keyframes rise {
+      0%   { opacity: 0; transform: translateY(18px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .rise {
+      opacity: 0;
+      animation: rise 0.9s var(--ease-out-quart) forwards;
+    }
+    .delay-1 { animation-delay: 0.05s; }
+    .delay-2 { animation-delay: 0.18s; }
+    .delay-3 { animation-delay: 0.32s; }
+    .delay-4 { animation-delay: 0.46s; }
+    .delay-5 { animation-delay: 0.6s; }
+    .delay-6 { animation-delay: 0.74s; }
+
+    @keyframes mini-rise {
+      0%   { opacity: 0; transform: translateY(12px) scaleY(0.85); transform-origin: bottom; }
+      100% { opacity: 1; transform: translateY(0) scaleY(1); }
+    }
+    .mini-arch {
+      opacity: 0;
+      animation: mini-rise 0.6s var(--ease-out-quart) forwards;
+    }
+    .mini-arch:nth-child(1) { animation-delay: 0.7s; }
+    .mini-arch:nth-child(2) { animation-delay: 0.78s; }
+    .mini-arch:nth-child(3) { animation-delay: 0.86s; }
+    .mini-arch:nth-child(4) { animation-delay: 0.94s; }
+    .mini-arch:nth-child(5) { animation-delay: 1.02s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    ::selection { background: oklch(78% 0.155 82 / 0.4); color: var(--text-on-dark); }
+
+    .pane-light ::selection {
+      background: oklch(78% 0.155 82 / 0.35);
+      color: var(--text-on-light);
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--c-gold);
+      outline-offset: 2px;
+      border-radius: 6px;
+    }
+    .cta:focus-visible {
+      outline-offset: 3px;
+    }
+  </style>
+</head>
+<body>
+  <main class="split">
+
+    <!-- ════════ LEFT — DARK (brand) ════════ -->
+    <section class="pane-dark">
+      <span class="pill rise delay-1">
+        <span class="pill__dot" aria-hidden="true"></span>
+        Próximamente · Lista de espera abierta
+      </span>
+
+      <div class="copy">
+        <p class="eyebrow rise delay-2">Para empresas, oficios y profesionales locales</p>
+        <h1 class="display rise delay-3">
+          Hacemos fácil <em>lo que debería ser</em> sencillo.
+        </h1>
+        <p class="lede rise delay-4">
+          Hola. Si estás aquí es porque necesitas que más personas te encuentren.
+          Estamos construyendo el puente definitivo para conectarte con
+          quienes buscan soluciones reales hoy mismo.
+          <strong>Muy pronto, tu vitrina profesional estará lista.</strong>
+        </p>
+
+        <!-- Mini arches — pequeño homenaje a la vitrina de oficios -->
+        <div class="mini-arches" aria-label="Cinco categorías de talento">
+          <span class="mini-arch" title="Servicios del Hogar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 11l9-7 9 7v9a2 2 0 0 1-2 2h-4v-7H10v7H6a2 2 0 0 1-2-2v-9z"/>
+            </svg>
+          </span>
+          <span class="mini-arch" title="Salud y Médicos">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M8 3v6a4 4 0 0 0 8 0V3"/><path d="M12 13v4a4 4 0 0 0 4 4"/><circle cx="18" cy="18" r="2"/>
+            </svg>
+          </span>
+          <span class="mini-arch" title="Gastronomía">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 11a4 4 0 0 1 0-8 4 4 0 0 1 6-3 4 4 0 0 1 6 3 4 4 0 0 1 0 8H6z"/><path d="M7 11v8a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-8"/>
+            </svg>
+          </span>
+          <span class="mini-arch" title="Automotriz">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 17h14M3 13h18l-2-5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2l-2 5z"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/>
+            </svg>
+          </span>
+          <span class="mini-arch" title="Profesionales y Logística">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/>
+            </svg>
+          </span>
+        </div>
+        <p class="mini-arches__caption">Tu oficio · tu ventana · tu cliente</p>
+      </div>
+
+      <p class="manifesto">
+        <svg class="manifesto__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+        </svg>
+        El fin de promocionarte en <em>TODOS lados</em>.
+      </p>
+    </section>
+
+    <!-- ════════ RIGHT — LIGHT (form) ════════ -->
+    <section class="pane-light">
+      <div class="form-wrap" id="formWrap">
+        <header class="form-header rise delay-2">
+          <span class="pill pill--light">
+            <span class="pill__dot" aria-hidden="true"></span>
+            Lista de espera
+          </span>
+          <h2>Reserva tu lugar</h2>
+          <p>Sé de los primeros en abrir tu vitrina profesional al mundo.</p>
+        </header>
+
+        <form class="form rise delay-3" id="leadForm" novalidate>
+          <div class="field">
+            <label class="field__label" for="f-name">Nombre <span class="req">*</span></label>
+            <input class="field__input" id="f-name" name="name" type="text" required autocomplete="name" placeholder="Tu nombre" maxlength="120" />
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="f-whatsapp">WhatsApp <span class="req">*</span></label>
+            <input class="field__input" id="f-whatsapp" name="whatsapp" type="tel" required inputmode="tel" autocomplete="tel" placeholder="+58 414 000 0000" maxlength="32" />
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="f-email">Correo <span class="req">*</span></label>
+            <input class="field__input" id="f-email" name="email" type="email" required autocomplete="email" placeholder="donde recibirás tu invitación" maxlength="160" />
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="f-category">¿Cuál es el área de tu negocio? <span class="req">*</span></label>
+            <select class="field__select" id="f-category" name="category" required>
+              <option value="" disabled selected>Elige tu oficio o categoría</option>
+              <option>Artesanal</option>
+              <option>Automotriz</option>
+              <option>Belleza y Estética</option>
+              <option>Bienes Raíces</option>
+              <option>Compras y Retail</option>
+              <option>Entretenimiento y Deportes</option>
+              <option>Gastronomía</option>
+              <option>Salud y Especialistas Médicos</option>
+              <option>Servicios Profesionales y Logística</option>
+              <option>Servicios del Hogar</option>
+              <option>Otro</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="f-details">¿Qué hace especial a tu negocio?</label>
+            <textarea class="field__textarea" id="f-details" name="details" rows="3" placeholder="Cuéntanos en una línea — sin formalidades." maxlength="500"></textarea>
+          </div>
+
+          <button class="cta" type="submit" id="ctaButton">
+            <span id="ctaText">Quiero ser de los primeros</span>
+            <span class="cta__arrow" aria-hidden="true">
+              <svg viewBox="0 0 14 14" fill="none">
+                <path d="M1 7h12m0 0L8 2m5 5l-5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+          </button>
+
+          <p class="helper" id="helper" aria-live="polite">Sin spam. Solo el aviso cuando abramos las puertas.</p>
+        </form>
+      </div>
+
+      <p class="form-footer">© 2026 · Todos los derechos reservados</p>
+    </section>
+
+  </main>
+
+  <script>
+    /* Demo HTML estático — reemplaza simulateSubmit() con un fetch real
+       (Resend, Formspree, Sheets, etc.) cuando esté listo. */
+    const form    = document.getElementById('leadForm');
+    const helper  = document.getElementById('helper');
+    const cta     = document.getElementById('ctaButton');
+    const ctaText = document.getElementById('ctaText');
+    const wrap    = document.getElementById('formWrap');
+
+    const EMAIL_RX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      helper.className = 'helper';
+      helper.textContent = '';
+
+      const data = new FormData(form);
+      const name     = String(data.get('name') ?? '').trim();
+      const whatsapp = String(data.get('whatsapp') ?? '').trim();
+      const email    = String(data.get('email') ?? '').trim();
+      const category = String(data.get('category') ?? '');
+
+      if (!name || name.length < 2) return showError('Cuéntanos tu nombre completo.');
+      if (whatsapp.length < 7)      return showError('Ese número de WhatsApp no parece válido.');
+      if (!EMAIL_RX.test(email))    return showError('Revisa tu correo, parece tener un error.');
+      if (!category)                return showError('Selecciona una categoría.');
+
+      cta.disabled = true;
+      ctaText.textContent = 'Enviando…';
+
+      try {
+        await simulateSubmit({ name, whatsapp, email, category });
+        showSuccess();
+      } catch (err) {
+        cta.disabled = false;
+        ctaText.textContent = 'Quiero ser de los primeros';
+        showError('Algo salió mal. Intenta de nuevo en un momento.');
+      }
+    });
+
+    function showError(msg) {
+      helper.className = 'helper error';
+      helper.textContent = msg;
+    }
+
+    function simulateSubmit(payload) {
+      console.log('[demo] lead capturado:', payload);
+      return new Promise((resolve) => setTimeout(resolve, 700));
+    }
+
+    function showSuccess() {
+      wrap.innerHTML = `
+        <div class="success-card" aria-live="polite">
+          <div class="seal" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M5 12.5l4 4 10-10" stroke="#EDB21D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+          <h3>Quedaste en la lista</h3>
+          <p>Te escribiremos por WhatsApp y correo cuando abramos las puertas. Gracias por confiar primero.</p>
+        </div>
+      `;
+    }
+  </script>
+</body>
+</html>
