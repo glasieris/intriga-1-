@@ -1,8 +1,4 @@
 // api/subscribe.js
-import { Resend } from 'resend';
-
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Método no permitido' });
@@ -15,18 +11,38 @@ export default async function handler(req, res) {
   }
 
   try {
-    const audienceId = '26265d73-7751-4229-8291-9430bfaa0a36'; // pega aquí el ID real de la audiencia intriga 1
+    const audienceId = 'AQUI_ID_INTRIGA_1'; // pega aquí el ID real de la audiencia intriga 1
 
-    await resend.contacts.create({
-      email,
-      firstName: name,
-      audienceId,
-      properties: {
-        whatsapp,
-        business_area,
-        business_special,
+    const apiKey = process.env.RESEND_API_KEY;
+    if (!apiKey) {
+      console.error('RESEND_API_KEY no está definida');
+      return res.status(500).json({ error: 'Config de servidor incompleta.' });
+    }
+
+    const response = await fetch('https://api.resend.com/contacts', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
       },
+      body: JSON.stringify({
+        email,
+        firstName: name,
+        audienceId,
+        properties: {
+          whatsapp,
+          business_area,
+          business_special,
+        },
+      }),
     });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      console.error('Error desde Resend:', data);
+      return res.status(500).json({ error: 'No se pudo guardar el contacto.' });
+    }
 
     return res.status(200).json({ success: true });
   } catch (error) {
