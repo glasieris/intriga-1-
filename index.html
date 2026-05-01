@@ -700,68 +700,83 @@
   </main>
 
   <script>
-    /* Demo HTML estático — reemplaza simulateSubmit() con un fetch real
-       (Resend, Formspree, Sheets, etc.) cuando esté listo. */
-    const form    = document.getElementById('leadForm');
-    const helper  = document.getElementById('helper');
-    const cta     = document.getElementById('ctaButton');
-    const ctaText = document.getElementById('ctaText');
-    const wrap    = document.getElementById('formWrap');
+  const form    = document.getElementById('leadForm');
+  const helper  = document.getElementById('helper');
+  const cta     = document.getElementById('ctaButton');
+  const ctaText = document.getElementById('ctaText');
+  const wrap    = document.getElementById('formWrap');
 
-    const EMAIL_RX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const EMAIL_RX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      helper.className = 'helper';
-      helper.textContent = '';
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    helper.className = 'helper';
+    helper.textContent = '';
 
-      const data = new FormData(form);
-      const name     = String(data.get('name') ?? '').trim();
-      const whatsapp = String(data.get('whatsapp') ?? '').trim();
-      const email    = String(data.get('email') ?? '').trim();
-      const category = String(data.get('category') ?? '');
+    const data = new FormData(form);
+    const name     = String(data.get('name') ?? '').trim();
+    const whatsapp = String(data.get('whatsapp') ?? '').trim();
+    const email    = String(data.get('email') ?? '').trim();
+    const category = String(data.get('category') ?? '').trim();
+    const details  = String(data.get('details') ?? '').trim();
 
-      if (!name || name.length < 2) return showError('Cuéntanos tu nombre completo.');
-      if (whatsapp.length < 7)      return showError('Ese número de WhatsApp no parece válido.');
-      if (!EMAIL_RX.test(email))    return showError('Revisa tu correo, parece tener un error.');
-      if (!category)                return showError('Selecciona una categoría.');
+    if (!name || name.length < 2) return showError('Cuéntanos tu nombre completo.');
+    if (whatsapp.length < 7)      return showError('Ese número de WhatsApp no parece válido.');
+    if (!EMAIL_RX.test(email))    return showError('Revisa tu correo, parece tener un error.');
+    if (!category)                return showError('Selecciona una categoría.');
 
-      cta.disabled = true;
-      ctaText.textContent = 'Enviando…';
+    cta.disabled = true;
+    ctaText.textContent = 'Enviando…';
 
-      try {
-        await simulateSubmit({ name, whatsapp, email, category });
+    const payload = {
+      name,
+      whatsapp,
+      email,
+      business_area: category,
+      business_special: details,
+    };
+
+    try {
+      const res = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (res.ok) {
         showSuccess();
-      } catch (err) {
+      } else {
+        const data = await res.json().catch(() => ({}));
         cta.disabled = false;
         ctaText.textContent = 'Quiero ser de los primeros';
-        showError('Algo salió mal. Intenta de nuevo en un momento.');
+        showError(data.error || 'Algo salió mal. Intenta de nuevo en un momento.');
       }
-    });
-
-    function showError(msg) {
-      helper.className = 'helper error';
-      helper.textContent = msg;
+    } catch (err) {
+      console.error(err);
+      cta.disabled = false;
+      ctaText.textContent = 'Quiero ser de los primeros';
+      showError('Error de conexión. Intenta de nuevo en un momento.');
     }
+  });
 
-    function simulateSubmit(payload) {
-      console.log('[demo] lead capturado:', payload);
-      return new Promise((resolve) => setTimeout(resolve, 700));
-    }
+  function showError(msg) {
+    helper.className = 'helper error';
+    helper.textContent = msg;
+  }
 
-    function showSuccess() {
-      wrap.innerHTML = `
-        <div class="success-card" aria-live="polite">
-          <div class="seal" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none">
-              <path d="M5 12.5l4 4 10-10" stroke="#EDB21D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-          </div>
-          <h3>Quedaste en la lista</h3>
-          <p>Te escribiremos por WhatsApp y correo cuando abramos las puertas. Gracias por confiar primero.</p>
+  function showSuccess() {
+    wrap.innerHTML = `
+      <div class="success-card" aria-live="polite">
+        <div class="seal" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M5 12.5l4 4 10-10" stroke="#EDB21D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
         </div>
-      `;
-    }
+        <h3>Quedaste en la lista</h3>
+        <p>Te escribiremos por WhatsApp y correo cuando abramos las puertas. Gracias por confiar primero.</p>
+      </div>
+    `;
+  }
   </script>
 </body>
 </html>
