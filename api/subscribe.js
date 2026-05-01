@@ -11,7 +11,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const audienceId = '26265d73-7751-4229-8291-9430bfaa0a36'; // ID intriga 1
+    const audienceId = '26265d73-7751-4229-8291-9430bfaa0a36'; // intriga 1
 
     const apiKey = process.env.RESEND_API_KEY;
     if (!apiKey) {
@@ -22,14 +22,18 @@ export default async function handler(req, res) {
     const response = await fetch('https://api.resend.com/contacts', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${apiKey}`,
+        Authorization: `Bearer ${apiKey}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         email,
         firstName: name,
         audienceId,
-        // Por ahora NO enviamos properties extra
+        properties: {
+          whatsapp,
+          business_area,
+          business_special,
+        },
       }),
     });
 
@@ -37,7 +41,9 @@ export default async function handler(req, res) {
 
     if (!response.ok) {
       console.error('Error desde Resend:', data);
-      return res.status(500).json({ error: 'No se pudo guardar el contacto.' });
+      return res
+        .status(500)
+        .json({ error: 'No se pudo guardar el contacto.' });
     }
 
     return res.status(200).json({ success: true });
